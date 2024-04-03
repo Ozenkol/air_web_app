@@ -1,27 +1,67 @@
-# AirWebApp
+# Infinity Airways
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+Infinity Airways is a web application designed to provide users with a seamless experience for booking flights, managing reservations, and exploring travel options. Inspired by websites like Emirates, our goal is to offer a user-friendly interface coupled with powerful backend functionality.
 
-## Development server
+## Table of Contents
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Group Members](#group-members)
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Flight Booking**: Users can search for flights, view available options, and book tickets.
+- **Reservation Management**: Registered users can manage their reservations, including canceling or modifying bookings.
+- **User Authentication**: Secure user authentication and authorization to access personalized features.
+- **Admin Panel**: An admin dashboard for managing flights, user data, and site content.
+- **Responsive Design**: Ensures a seamless experience across desktop and mobile devices.
 
-## Build
+## Technologies Used
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Frontend**: Angular - A powerful JavaScript framework for building dynamic web applications.
+- **Backend**: Django - A high-level Python web framework for rapid development and clean, pragmatic design.
+- **Database**: PostgreSQL - An open-source relational database management system.
+- **Authentication**: JSON Web Tokens (JWT) for secure user authentication.
+- **Version Control**: Git - Distributed version control system for tracking changes in the codebase.
 
-## Running unit tests
+## Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To run this project locally, follow these steps:
 
-## Running end-to-end tests
+1. Clone the repository: `git clone <repository-url>`
+2. Navigate to the frontend directory: `cd frontend`
+3. Install frontend dependencies: `npm install`
+4. Navigate to the backend directory: `cd ../backend`
+5. Install backend dependencies: `pip install -r requirements.txt`
+6. Set up the database: `python manage.py migrate`
+7. Start the backend server: `python manage.py runserver`
+8. Start the frontend server: `ng serve`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Usage
 
-## Further help
+Once the installation is complete, you can access the web application by navigating to `http://localhost:4200` in your web browser. From there, you can explore the different features of Infinity Airways, such as searching for flights, managing reservations, and more.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Contributing
+
+We welcome contributions from the community to improve Infinity Airways. If you'd like to contribute, please follow these guidelines:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature`)
+3. Make your changes
+4. Commit your changes (`git commit -am 'Add new feature'`)
+5. Push to the branch (`git push origin feature`)
+6. Submit a pull request
+
+## License
+
+This project is not licensed.
+
+## Group Members
+
+- Temirlan
+- Arslan
+- Kuanysh Nursultan
