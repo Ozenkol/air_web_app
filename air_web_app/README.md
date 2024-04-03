@@ -58,3 +58,9 @@ We welcome contributions from the community to improve Infinity Airways. If you'
 ## License
 
 This project is not licensed.
+
+## Group Members
+
+- Temirlan
+- Arslan
+- Kuanysh Nursultan
