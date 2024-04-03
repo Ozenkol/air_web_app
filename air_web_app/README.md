@@ -10,6 +10,7 @@ Infinity Airways is a web application designed to provide users with a seamless 
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Group Members](#Group Members)
 
 ## Features
 
