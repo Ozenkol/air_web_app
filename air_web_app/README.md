@@ -57,4 +57,4 @@ We welcome contributions from the community to improve Infinity Airways. If you'
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is not licensed.
