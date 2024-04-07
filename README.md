@@ -62,6 +62,6 @@ This project is not licensed.
 
 ## Group Members
 
-- Temirlan
+- Temirlan Tashen
 - Arslan
 - Kuanysh Nursultan
