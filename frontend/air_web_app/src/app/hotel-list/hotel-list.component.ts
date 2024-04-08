@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { HotelComponent } from '../hotel/hotel.component';
 
 @Component({
   selector: 'app-hotel-list',
   standalone: true,
-  imports: [],
+  imports: [HotelComponent],
   templateUrl: './hotel-list.component.html',
   styleUrl: './hotel-list.component.css'
 })
