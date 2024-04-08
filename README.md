@@ -63,5 +63,5 @@ This project is not licensed.
 ## Group Members
 
 - Temirlan Tashen
-- Arslan
+- Arslan Koshimov
 - Kuanysh Nursultan
