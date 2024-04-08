@@ -1,0 +1,12 @@
+.nav-link {
+    background-color: darkgrey;
+    color: rgb(255, 255, 255);
+    opacity: 0.75;
+}
+
+.nav-link.active {
+    background-color: darkgray;
+    opacity: 1;
+    border-bottom: 0px;
+}
+
