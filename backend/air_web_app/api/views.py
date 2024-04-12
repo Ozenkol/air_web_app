@@ -2,9 +2,12 @@ from django.shortcuts import render
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from .models import Flight, Passenger, Booking
 from .forms import SearchForm, BookingForm
+
+def index(request):
+    return HttpResponse("Hello")
 
 def flight_list(request):
     flights = Flight.objects.all()
