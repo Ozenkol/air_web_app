@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './hotel.component.css'
 })
 export class HotelComponent {
+  addTo() : void{
 
+  }
 }

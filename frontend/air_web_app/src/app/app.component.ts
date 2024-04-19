@@ -19,5 +19,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'air_web_app';
+  title = 'InfinityAirLine'
 }
