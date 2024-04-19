@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 const PROTOCOL = "http";
 const PORT = "8000";
@@ -21,15 +21,19 @@ export class RestDataSourceService {
     )
   } 
 
-  authenticate(username : string, password : string) : Observable<Token> {
-    console.log(this.baseUrl)
-    return this.http.post<Token>(
+  authenticate(username : string, password : string) : Observable<boolean> {
+    console.log("Data works!")
+    console.log(username, password)
+    return this.http.post<any>(
       this.baseUrl + "auth/login/",
       {
         username: username,
         password: password
       }
-    )
+    ).pipe(map(response => { 
+      this.auth_token = response.success ? response.token : null; 
+      return response.success; 
+    })); 
   }
 
 }
@@ -53,12 +57,5 @@ export class Flight {
     public price_first : number,
     public total_seats : number,
     public available_seats : number
-  ) {}
-}
-
-export class Token {
-  constructor(
-    public  access: string,
-    public  refresh: string
   ) {}
 }

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RestDataSourceService } from '../rest-data-source.service';
+import { AuthServiceService } from '../auth-service.service';
 
 @Component({
   selector: 'app-log-in',
@@ -16,22 +17,13 @@ export class LogInComponent {
   password ?: string
   errorMessage ?: string
 
-  constructor(private authService: RestDataSourceService) {}
+  constructor(private authService: AuthServiceService) {}
 
   authenticate(form : NgForm) {
-    console.log(this.username, this.password)
+    console.log("Form worka!")
     if (form.valid) {
-      this.authService.authenticate(this.username ?? "", this.password ?? "").subscribe(
-        response => {
-          if (response) {
-            this.errorMessage = "Good"
-          }
-          else {
-            this.errorMessage = "Authentication failed"
-          }
-        }
-          
-      )
+      console.log("Form valid!")
+      this.authService.authenticate(this.username ?? "", this.password ?? "").subscribe()
     }
     else {
       this.errorMessage = "Form Data Invalid";

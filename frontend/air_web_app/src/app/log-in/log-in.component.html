@@ -1,6 +1,5 @@
 <form novalidate #form="ngForm" (ngSubmit)="authenticate(form)">
-    <div class="bg-danger mt-2 p-2 text-center text-white"
-      *ngIf="errorMessage != null">
+    <div class="bg-danger mt-2 p-2 text-center text-white">
       {{errorMessage}}
     </div>
     <div class="form-group">
