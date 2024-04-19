@@ -1,26 +1,26 @@
 from django.shortcuts import render
 
+from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponse, JsonResponse
 from .models import Flight, Passenger, Booking
 from .forms import SearchForm, BookingForm
+from .serializers import FlightSerializer
+
 
 def index(request):
     return HttpResponse("Hello")
 
 def flight_list(request):
     flights = Flight.objects.all()
-    search_form = SearchForm(request.GET)
-    if search_form.is_valid():
-        origin = search_form.cleaned_data.get('origin')
-        destination = search_form.cleaned_data.get('destination')
-        flights = flights.filter(origin=origin, destination=destination)
-    return render(request, 'flight_list.html', {'flights': flights, 'search_form': search_form})
+    flight_serializer = FlightSerializer(flights, many = True)
+    return JsonResponse(flight_serializer.data, safe=False)
 
 def flight_detail(request, pk):
     flight = get_object_or_404(Flight, pk=pk)
-    return render(request, 'flight_detail.html', {'flight': flight})
+    flight_serializer = FlightSerializer(flight)
+    return JsonResponse(flight_serializer.data)
 
 @login_required
 def book_flight(request, pk):

@@ -21,13 +21,13 @@ export class RestDataSourceService {
     )
   } 
 
-  authenticate(username : string, password : string) : Observable<boolean> {
+  authenticate(username : string, password : string) : Observable<Token> {
     console.log(this.baseUrl)
-    return this.http.post<any>(
-      this.baseUrl + "login/",
+    return this.http.post<Token>(
+      this.baseUrl + "auth/login/",
       {
-        access: username,
-        refresh: password
+        username: username,
+        password: password
       }
     )
   }
@@ -53,5 +53,12 @@ export class Flight {
     public price_first : number,
     public total_seats : number,
     public available_seats : number
+  ) {}
+}
+
+export class Token {
+  constructor(
+    public  access: string,
+    public  refresh: string
   ) {}
 }

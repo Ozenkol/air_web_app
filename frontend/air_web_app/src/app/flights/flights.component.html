@@ -1,5 +1,9 @@
 <button
     (click)="getFlights()"
 >
-
+    Click for get flights
 </button>
+
+<div *ngFor="let flight of flights">
+    {{flight.departure_time}}
+</div>
