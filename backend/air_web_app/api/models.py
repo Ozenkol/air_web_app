@@ -1,7 +1,11 @@
 from django.db import models
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+
+#User model
+User = get_user_model()
 
 class Airport(models.Model):
     code = models.CharField(max_length=3, unique=True)
