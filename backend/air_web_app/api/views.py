@@ -1,46 +1,60 @@
-from django.shortcuts import render
-
-from django.core import serializers
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, HttpResponse, JsonResponse
+from rest_framework import views, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from .models import Flight, Passenger, Booking
 from .forms import SearchForm, BookingForm
-from .serializers import FlightSerializer
+from .serializers import FlightSerializer, BookingSerializer, UserSerializer
 
 
-def index(request):
-    return HttpResponse("Hello")
+class FlightListView(views.APIView):
+    def get(self, request):
+        flights = Flight.objects.all()
+        search_form = SearchForm(request.GET)
+        if search_form.is_valid():
+            origin = search_form.cleaned_data.get('origin')
+            destination = search_form.cleaned_data.get('destination')
+            flights = flights.filter(origin=origin, destination=destination)
+        serializer = FlightSerializer(flights, many=True)
+        return Response(serializer.data)
 
-def flight_list(request):
-    flights = Flight.objects.all()
-    flight_serializer = FlightSerializer(flights, many = True)
-    return JsonResponse(flight_serializer.data, safe=False)
+class FlightDetailView(views.APIView):
+    def get(self, request, pk):
+        flight = get_object_or_404(Flight, pk=pk)
+        serializer = FlightSerializer(flight)
+        return Response(serializer.data)
 
-def flight_detail(request, pk):
-    flight = get_object_or_404(Flight, pk=pk)
-    flight_serializer = FlightSerializer(flight)
-    return JsonResponse(flight_serializer.data)
-
-@login_required
-def book_flight(request, pk):
-    flight = get_object_or_404(Flight, pk=pk)
-    if request.method == 'POST':
-        form = BookingForm(request.POST)
+class BookFlightView(views.APIView):
+    authentication_classes = [JWTAuthentication]  # Specify JWTAuthentication for authentication
+    permission_classes = [IsAuthenticated]
+    def post(self, request, pk):
+        flight = get_object_or_404(Flight, pk=pk)
+        form = BookingForm(request.data)
         if form.is_valid():
             passenger = Passenger.objects.get(user=request.user)
             seat_class = form.cleaned_data['seat_class']
             total_price = flight.get_price(seat_class)
             booking = Booking.objects.create(passenger=passenger, flight=flight, seat_class=seat_class, total_price=total_price)
             flight.book_seat()
-            return redirect('booking_detail', pk=booking.pk)
-    else:
-        form = BookingForm()
-    return render(request, 'book_flight.html', {'flight': flight, 'form': form})
+            serializer = BookingSerializer(booking)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def booking_detail(request, pk):
-    booking = get_object_or_404(Booking, pk=pk)
-    if request.user == booking.passenger.user:
-        return render(request, 'booking_detail.html', {'booking': booking})
-    else:
-        return HttpResponseForbidden("You don't have permission to view this booking.")
+class BookingDetailView(views.APIView):
+    def get(self, request, pk):
+        booking = get_object_or_404(Booking, pk=pk)
+        serializer = BookingSerializer(booking)
+        if request.user == booking.passenger.user:
+            return Response(serializer.data)
+        else:
+            return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
+
+class UserSignUpAPIView(views.APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
