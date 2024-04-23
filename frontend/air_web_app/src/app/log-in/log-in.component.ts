@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RestDataSourceService } from '../rest-data-source.service';
-import { AuthServiceService } from '../auth-service.service';
+import { AuthService } from '../auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-log-in',
@@ -17,13 +19,17 @@ export class LogInComponent {
   password ?: string
   errorMessage ?: string
 
-  constructor(private authService: AuthServiceService) {}
+  constructor(private authService: AuthService) {}
 
   authenticate(form : NgForm) {
-    console.log("Form worka!")
     if (form.valid) {
-      console.log("Form valid!")
-      this.authService.authenticate(this.username ?? "", this.password ?? "").subscribe()
+      this.authService.authenticate(this.username ?? "", this.password ?? "").subscribe(
+        response => this.errorMessage = undefined,
+        error => {if (error) {
+          this.errorMessage = "Authentication Failed"
+        }
+        }
+      )
     }
     else {
       this.errorMessage = "Form Data Invalid";

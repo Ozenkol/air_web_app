@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 
 const PROTOCOL = "http";
 const PORT = "8000";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,21 +23,37 @@ export class RestDataSourceService {
     )
   } 
 
-  authenticate(username : string, password : string) : Observable<boolean> {
-    console.log("Data works!")
-    console.log(username, password)
+  authenticate(username : string, password : string) : Observable<any> {
     return this.http.post<any>(
       this.baseUrl + "auth/login/",
       {
         username: username,
         password: password
       }
-    ).pipe(map(response => { 
-      this.auth_token = response.success ? response.token : null; 
-      return response.success; 
-    })); 
+    )
   }
-
+  registration(username : string, password : string) : Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + "auth/login/",
+      {
+        username: username,
+        password: password
+      }
+    ).pipe(
+      
+    ); 
+  }
+  logout(username : string, password : string) : Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + "auth/login/",
+      {
+        username: username,
+        password: password
+      }
+    ).pipe(
+      
+    ); 
+  }
 }
 
 export class Airport {
