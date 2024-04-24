@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from rest_framework import views, status
@@ -5,9 +6,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .models import Flight, Passenger, Booking
+from .models import Airport, Flight, Passenger, Booking
 from .forms import SearchForm, BookingForm
-from .serializers import FlightSerializer, BookingSerializer, UserSerializer
+from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, UserSerializer
+
+def airportsList(request):
+    objects = Airport.objects.all()
+    serializer = AirportSerializer(objects, many = True)
+    print(serializer.data)
+    return JsonResponse(serializer.data, safe = False)
 
 
 class FlightListView(views.APIView):
@@ -55,6 +62,7 @@ class BookingDetailView(views.APIView):
 class UserSignUpAPIView(views.APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
+        print(request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

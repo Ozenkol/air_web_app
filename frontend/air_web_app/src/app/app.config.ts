@@ -3,15 +3,14 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
-import { LoggingInterceptor } from './http-interceptor.interceptor';
+import { AuthInterceptor } from './auth-interceptor.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), 
-    importProvidersFrom(HttpClientModule),
     provideHttpClient(),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: LoggingInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     }
   ]

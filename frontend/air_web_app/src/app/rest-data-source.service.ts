@@ -6,7 +6,6 @@ const PROTOCOL = "http";
 const PORT = "8000";
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +15,12 @@ export class RestDataSourceService {
 
   constructor(private http: HttpClient) { 
   }
+
+  get airports() : Observable<Airport[]> {
+    return this.http.get<Airport[]>(
+      this.baseUrl + "api/" + "airports/"
+    )
+  }
   
   get flights() : Observable<Flight[]> {
     return this.http.get<Flight[]>(
@@ -23,37 +28,36 @@ export class RestDataSourceService {
     )
   } 
 
+  get books() : Observable<Book[]> {
+    return this.http.get<Book[]>(
+      this.baseUrl + "api/books/"
+    )
+  }
+
   authenticate(username : string, password : string) : Observable<any> {
     return this.http.post<any>(
-      this.baseUrl + "auth/login/",
+      this.baseUrl + "api/"+"sign-in/",
       {
         username: username,
         password: password
       }
     )
   }
-  registration(username : string, password : string) : Observable<any> {
+  registration(username : string, 
+    first_name : string, last_name : string,
+    password : string, email: string) : Observable<any> {
     return this.http.post<any>(
-      this.baseUrl + "auth/login/",
+      this.baseUrl +"api/"+ "sign-up/",
       {
         username: username,
-        password: password
+        first_name: first_name,
+        last_name: last_name,
+        password: password,
+        email: email
       }
-    ).pipe(
-      
-    ); 
+    )
   }
-  logout(username : string, password : string) : Observable<any> {
-    return this.http.post<any>(
-      this.baseUrl + "auth/login/",
-      {
-        username: username,
-        password: password
-      }
-    ).pipe(
-      
-    ); 
-  }
+  
 }
 
 export class Airport {
@@ -62,6 +66,22 @@ export class Airport {
     public code : number,
     public name : string
   ) {}
+}
+
+export class Passanger {
+  constructor(
+     
+  ) {}
+}
+
+export class Book {
+  constructor(
+    public passenger: Passanger,
+    public flight: Flight,
+    public seat_class: string,
+    public booking_date: Date,
+    public total_price: number
+  ){}
 }
 
 export class Flight {

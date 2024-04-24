@@ -28,8 +28,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  registration(username: string, email: string, password: string) {
-    
+  registration(username: string, 
+    first_name: string, last_name:string,
+    password: string, email: string) : Observable<any> {
+    return this.datasource.registration(username, first_name, last_name, password, email)
   }
   
   authenticate(username: string, password: string): Observable<any> { 
@@ -37,14 +39,26 @@ export class AuthService {
       tap(response => this.setSession(response)),
       shareReplay(),
     )
-  } 
-  get authenticated(): boolean { 
-    return this.datasource.auth_token != null; 
-  } 
+  }
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
   }
+  getExpiration() {
+    const expiration = localStorage.getItem('expires_at');
+    const expiresAt = JSON.parse(expiration ?? "");
+
+    return moment(expiresAt);
+  }
+
+  isLoggedIn() {
+    return moment().isBefore(this.getExpiration());
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
+  }
+
   clear() { 
     this.datasource.auth_token = undefined; 
   } 
