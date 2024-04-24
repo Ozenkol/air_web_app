@@ -19,7 +19,7 @@ class UserSerializer(serializers.Serializer):
 
 class AirportSerializer(serializers.Serializer):
     code = serializers.CharField()
-    name = serializers.CharField()
+    name = serializers.CharField() 
 
 class FlightSerializer(serializers.Serializer):
     origin = AirportSerializer()
