@@ -1,4 +1,5 @@
-<form novalidate #form="ngForm" (ngSubmit)="authenticate(form)">
+<div class="mx-5 my-4 d-flex justify-content-center">
+  <form novalidate #form="ngForm" (ngSubmit)="authenticate(form)">
     <div class="bg-danger mt-2 p-2 text-center text-white"
     *ngIf="errorMessage != null"
     >
@@ -16,4 +17,6 @@
     </div>
     <button type="submit" class="btn btn-primary my-2">Log in</button>
     <p>Or <a routerLink="/sign-up">Sign up</a></p>
-</form>
+  </form>
+</div>
+

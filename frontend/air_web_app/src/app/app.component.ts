@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { CarouselComponent } from './carousel/carousel.component';
@@ -18,6 +18,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy{
   title = 'InfinityAirLine'
+  ngOnDestroy(): void {
+      localStorage.setItem("token", "")
+  }
 }

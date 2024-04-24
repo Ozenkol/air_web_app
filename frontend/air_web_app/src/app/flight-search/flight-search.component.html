@@ -16,13 +16,21 @@
         </div>    
     </div>
     <button type="submit" class="btn btn-primary" (click)="filter()">Поиск</button>
-
 </form>
 
-<div class="row">
-    <div *ngIf="flights !== undefined">
-        <div class="col-3" *ngFor="let flight of flights">
-            {{flight.origin.name}} - {{flight.destination.name}}
+<div class="mx-5 my-5 d-flex flex-row bg-light p-3 rounded-3" *ngIf="flights?.length">
+    <div class="row" *ngFor="let flight of flights" >
+        <div class="col d-flex flex-column justify-content-between">
+            <h1>{{flight.origin.name}} - {{flight.destination.name}}</h1>
+            <p class="lead">{{flight.departure_time}} - {{flight.arrival_time}}</p>
+            <p class="lead"><strong>{{flight.price_economy}}</strong></p>
+        </div>
+        <div class="col d-flex flex-column justify-content-between">
+            <p class = "lead">Price business {{flight.price_business}}</p>
+            <p class = "lead">Price first {{flight.price_first}}</p>
+            <p class = "lead">Available seats {{flight.available_seats}}</p>
+            <button type="button" class="btn btn-primary mx-2"
+            >Бронировать</button>
         </div>
     </div>
 </div>

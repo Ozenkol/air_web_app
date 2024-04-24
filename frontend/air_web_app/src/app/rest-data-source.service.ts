@@ -14,6 +14,7 @@ export class RestDataSourceService {
   auth_token ?: string;
 
   constructor(private http: HttpClient) { 
+  
   }
 
   get airports() : Observable<Airport[]> {
@@ -30,7 +31,7 @@ export class RestDataSourceService {
 
   get books() : Observable<Book[]> {
     return this.http.get<Book[]>(
-      this.baseUrl + "api/books/"
+      this.baseUrl + "api/booking/2"
     )
   }
 

@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework import views, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -8,7 +9,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Airport, Flight, Passenger, Booking
 from .forms import SearchForm, BookingForm
-from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, UserSerializer
+from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, PassengerSerializer, UserSerializer
+
 
 def airportsList(request):
     objects = Airport.objects.all()
@@ -16,11 +18,11 @@ def airportsList(request):
     print(serializer.data)
     return JsonResponse(serializer.data, safe = False)
 
-
 class FlightListView(views.APIView):
     def get(self, request):
         flights = Flight.objects.all()
         search_form = SearchForm(request.GET)
+        print(request.user)
         if search_form.is_valid():
             origin = search_form.cleaned_data.get('origin')
             destination = search_form.cleaned_data.get('destination')
@@ -33,9 +35,12 @@ class FlightDetailView(views.APIView):
         flight = get_object_or_404(Flight, pk=pk)
         serializer = FlightSerializer(flight)
         return Response(serializer.data)
+    
 
+@authentication_classes([JWTAuthentication])
 class BookFlightView(views.APIView):
-    authentication_classes = [JWTAuthentication]  # Specify JWTAuthentication for authentication
+    print("LOL")
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request, pk):
         flight = get_object_or_404(Flight, pk=pk)
@@ -51,8 +56,8 @@ class BookFlightView(views.APIView):
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BookingDetailView(views.APIView):
-    def get(self, request, pk):
-        booking = get_object_or_404(Booking, pk=pk)
+    def get(self, request):
+        booking = Booking.objects.all()
         serializer = BookingSerializer(booking)
         if request.user == booking.passenger.user:
             return Response(serializer.data)

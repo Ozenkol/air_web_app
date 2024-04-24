@@ -1,9 +1,15 @@
-<button
-    (click)="getFlights()"
->
-    Click for get flights
-</button>
-
-<div *ngFor="let flight of flights">
-    {{flight.departure_time}}
+<div class="mx-5 my-5 d-flex flex-row bg-light p-3 rounded-3">
+    <div class="row">
+        <div class="col d-flex flex-column justify-content-between">
+            <h1>Some title</h1>
+            <p class="lead">Some para</p>
+            <p class="lead"><strong>Some text</strong></p>
+        </div>
+        <div class="col d-flex flex-column justify-content-between">
+            <p class = "lead">Отзывы</p>
+            <p class = "lead">Отзывы</p>
+            <p class = "lead">Отзывы</p>
+            <button type="button" class="btn btn-primary">Бронировать</button>
+        </div>
+    </div>
 </div>

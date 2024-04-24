@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Flight, RestDataSourceService } from '../rest-data-source.service';
 import { CommonModule } from '@angular/common';
 
@@ -10,12 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './flights.component.css'
 })
 export class FlightsComponent {
-  flights ?: Flight[]
-
-  constructor(private datasource : RestDataSourceService) {}
-  getFlights() {
-    this.datasource.flights.subscribe(
-      data => this.flights = data
-    )
-  }
+  @Input() flights ?: Flight[]
 }

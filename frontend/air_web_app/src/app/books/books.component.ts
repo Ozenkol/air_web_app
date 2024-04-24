@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RestDataSourceService } from '../rest-data-source.service';
+import { Component, OnInit } from '@angular/core';
+import { Book, RestDataSourceService } from '../rest-data-source.service';
 
 @Component({
   selector: 'app-books',
@@ -9,8 +9,17 @@ import { RestDataSourceService } from '../rest-data-source.service';
   templateUrl: './books.component.html',
   styleUrl: './books.component.css'
 })
-export class BooksComponent {
-  constructor(private datasource: RestDataSourceService) {}
+export class BooksComponent implements OnInit {
+  private books?: Book[]
 
+  constructor(private datasource: RestDataSourceService) {}
+  ngOnInit(): void {
+      this.datasource.books.subscribe(
+        data => this.books = data
+      )
+      console.log(this.books)
+  }
+
+  
   
 }

@@ -12,15 +12,12 @@ export class AuthService {
   constructor(private datasource: RestDataSourceService) { }
 
   private setSession(authResult : any) {
-    console.log("This is", authResult)
-    const token = authResult.refresh;
-    console.log("Token ", token)
-    const payload = <JWTPayload> jwtDecode(token);
-    console.log("This is payload ", payload)
-    const expiresAt = moment.unix(payload.exp);
-
-    localStorage.setItem('token', authResult.refresh);
-    console.log("This is token ", localStorage.getItem('token'))
+    const access = authResult.access;
+    const refresh = authResult.refresh;
+    const access_payload = <JWTPayload> jwtDecode(access);
+    const refresh_payload = <JWTPayload> jwtDecode(refresh);
+    const expiresAt = moment.unix(refresh_payload.exp);
+    localStorage.setItem('token', access);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
