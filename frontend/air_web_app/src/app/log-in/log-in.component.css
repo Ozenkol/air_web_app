@@ -1,0 +1,94 @@
+form {
+    width: 300px;
+    margin: auto; /* Чтобы форма была по центру */
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  img {
+    display: block;
+    margin: auto;
+    width: 70px; /* Укажите нужную ширину изображения */
+  }
+  
+  .form-group a {
+    text-decoration: underline; /* Подчеркиваем ссылку */
+    font-weight: 600;
+    color: black;
+    display: inline-block; /* Для правильного выравнивания */
+    margin-left: 5px; /* Расстояние между "Запомни меня" и ссылкой */
+  }
+  
+  .mx-5 {
+    margin-left: 1.25rem !important;
+    margin-right: 1.25rem !important;
+  }
+  
+  .my-4 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .d-flex {
+    display: flex !important;
+  }
+  
+  .justify-content-center {
+    justify-content: center !important;
+  }
+  
+  .bg-danger {
+    background-color: #dc3545 !important;
+  }
+  
+  .mt-2 {
+    margin-top: 0.5rem !important;
+  }
+  
+  .p-2 {
+    padding: 0.5rem !important;
+  }
+  
+  .text-center {
+    text-align: center !important;
+  }
+  
+  .text-white {
+    color: #fff !important;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  #exampleInputEmail1,
+  #exampleInputPassword1 {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+  

@@ -18,6 +18,7 @@ export class LogInComponent {
   username ?: string
   password ?: string
   errorMessage ?: string
+  rememberMe: boolean = false;
 
   constructor(private authService: AuthService,
     private router: Router

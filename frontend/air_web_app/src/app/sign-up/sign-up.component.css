@@ -1,0 +1,41 @@
+h2{
+  text-align: center;
+}
+form {
+    width: 400px;
+    margin: auto; /* Чтобы форма была по центру */
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .bg-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  .btn-primary {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .mx-5 {
+    margin-left: 1.25rem !important;
+    margin-right: 1.25rem !important;
+  }
+  
+  .my-4 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .d-flex {
+    display: flex !important;
+  }
+  
+  .justify-content-center {
+    justify-content: center !important;
+  }
+  
