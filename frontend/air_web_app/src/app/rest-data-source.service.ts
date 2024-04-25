@@ -31,7 +31,13 @@ export class RestDataSourceService {
 
   get books() : Observable<Book[]> {
     return this.http.get<Book[]>(
-      this.baseUrl + "api/booking/2"
+      this.baseUrl + "api/1/booking/"
+    )
+  }
+
+  deleteBook() : Observable<any> {
+    return this.http.delete(
+      this.baseUrl + "api/1/booking"
     )
   }
 
@@ -55,6 +61,14 @@ export class RestDataSourceService {
         last_name: last_name,
         password: password,
         email: email
+      }
+    )
+  }
+  createPassenger() {
+    return this.http.post<any>(
+      this.baseUrl + "api/" + "passenger/create/",
+      {
+
       }
     )
   }

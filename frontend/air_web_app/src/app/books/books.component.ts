@@ -10,7 +10,7 @@ import { Book, RestDataSourceService } from '../rest-data-source.service';
   styleUrl: './books.component.css'
 })
 export class BooksComponent implements OnInit {
-  private books?: Book[]
+  books?: Book[]
 
   constructor(private datasource: RestDataSourceService) {}
   ngOnInit(): void {

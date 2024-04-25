@@ -7,16 +7,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .models import Airport, Flight, Passenger, Booking
+from .models import Airport, Flight, Passenger, Booking, User
 from .forms import SearchForm, BookingForm
-from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, PassengerSerializer, UserSerializer
+from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, PassengerCreateSerializer, PassengerSerializer, UserSerializer
 
-
-def airportsList(request):
-    objects = Airport.objects.all()
-    serializer = AirportSerializer(objects, many = True)
-    print(serializer.data)
-    return JsonResponse(serializer.data, safe = False)
 
 def airportsList(request):
     objects = Airport.objects.all()
@@ -66,6 +60,7 @@ class BookingListView(views.APIView):
 
     def get(self, request, user_id):
         passenger = get_object_or_404(Passenger, user_id=user_id)
+        print(passenger)
         bookings = Booking.objects.filter(passenger=passenger)
         serializer = BookingSerializer(bookings, many=True)
         return Response(serializer.data)
@@ -83,14 +78,15 @@ class BookingDetailView(views.APIView):
 
 class PassengerCreateView(views.APIView):
     def post(self, request):
-        username = request.data.get('username')  # Assuming username is provided in the request data
-        user = User.objects.create(username=username)
+        username = request.user  # Assuming username is provided in the request data
+        print(username)
+        user = User.objects.get(username=username)
+        print(user.id)
         passenger_data = {'user': user.id, 'flights': []}  # Customize data as needed
         serializer = PassengerCreateSerializer(data=passenger_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        user.delete()  # Rollback user creation if passenger creation fails
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserSignUpAPIView(views.APIView):

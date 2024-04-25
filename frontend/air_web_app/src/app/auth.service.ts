@@ -37,6 +37,9 @@ export class AuthService {
       shareReplay(),
     )
   }
+  createPassenger(): Observable<any> {
+    return this.datasource.createPassenger()
+  }
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
