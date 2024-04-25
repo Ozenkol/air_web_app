@@ -1,0 +1,17 @@
+.carousel-caption {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+  }
+  
+  .carousel-caption h1 {
+    font-size: 110px;
+    color: white;
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px black; /* Эффект тени */
+    opacity: 0.4; /* Прозрачность текста */
+  }
