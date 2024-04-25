@@ -18,13 +18,15 @@ export class BooksComponent implements OnInit {
   
   constructor(private datasource: RestDataSourceService) {}
   ngOnInit(): void {
+    console.log("asad")
     this.datasource.passanger.subscribe(
       data => this.passanger = data
     )
-      this.datasource.books(this.passanger.user.id).subscribe(
-        data => this.books = data
-      )
-      console.log(this.books)
+    this.datasource.books().subscribe(
+      data => this.books = data
+    )
+
+    console.log(this.books)
   }  
   delete(id: number) {
     this.datasource.deleteBook(id).subscribe()

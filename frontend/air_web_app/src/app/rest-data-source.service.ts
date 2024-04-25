@@ -29,9 +29,9 @@ export class RestDataSourceService {
     )
   } 
 
-  books(user_id: number) : Observable<Book[]> {
+  books() : Observable<Book[]> {
     return this.http.get<Book[]>(
-      this.baseUrl + "api/"+user_id+"/booking/"
+      this.baseUrl + "api/booking"
     )
   }
 

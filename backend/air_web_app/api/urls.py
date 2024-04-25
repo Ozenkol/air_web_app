@@ -3,7 +3,7 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 from . import views
 from .views import UserSignUpAPIView, FlightListView, FlightDetailView, BookingDetailView, \
-    PassengerCreateView, GetPassengerByUser, book_flight_view, booking_list_view
+    PassengerCreateView, GetPassengerByUser, airportsList, book_flight_view, booking_list_view
 
 urlpatterns = [
     path('airports/', airportsList),
