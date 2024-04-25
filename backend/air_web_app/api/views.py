@@ -66,6 +66,13 @@ class BookingListView(views.APIView):
         bookings = Booking.objects.filter(passenger=passenger)
         serializer = BookingSerializer(bookings, many=True)
         return Response(serializer.data)
+    def post(self, request):
+        serializer = BookingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class BookingDetailView(views.APIView):
     permission_classes = [IsAuthenticated]
@@ -78,7 +85,7 @@ class BookingDetailView(views.APIView):
         else:
             return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
 
-    def post(self, request):
+    def post(self, request, pk):
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

@@ -35,7 +35,7 @@ class FlightSerializer(serializers.Serializer):
 # class PassengerSerializer(serializers.ModelSerializer):
 #     user = UserSerializer()
 #     flights = FlightSerializer(many=True)
-#
+
 #     class Meta:
 #         model = Passenger
 #         fields = ['id', 'user', 'flights']
