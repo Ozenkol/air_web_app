@@ -21,6 +21,7 @@
 <div class="mx-5 my-5 d-flex flex-row bg-light p-3 rounded-3" *ngIf="flights?.length">
     <div class="row" *ngFor="let flight of flights" >
         <div class="col d-flex flex-column justify-content-between">
+            <h1>{{flight.id}}</h1>
             <h1>{{flight.origin.name}} - {{flight.destination.name}}</h1>
             <p class="lead">{{flight.departure_time}} - {{flight.arrival_time}}</p>
             <p class="lead"><strong>{{flight.price_economy}}</strong></p>

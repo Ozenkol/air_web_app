@@ -1,7 +1,7 @@
 <div class="mx-5 my-5 d-flex flex-row bg-light p-3 rounded-3" *ngIf="books?.length">
     <div class="row" *ngFor="let book of books" >
         <div class="col d-flex flex-column justify-content-between">
-            <h1>{{book.flight}}</h1>
+            <h1>{{book.id}}</h1>
             <p class="lead"></p>
             <p class="lead"><strong></strong></p>
         </div>
@@ -11,7 +11,9 @@
             <p class = "lead"></p>
             <select id="inputState" class="form-control" [(ngModel)]="seat_class"
             [ngModelOptions]="{standalone: true}">
-                <option [ngValue]="'economy'">Economy</option>           
+                <option [ngValue]="'economy'">Economy</option> 
+                <option [ngValue]="'first'">First</option> 
+                <option [ngValue]="'busines'">Business</option>           
             </select>
             <button type="button" class="btn btn-primary mx-2"
             (click)="delete(book.id)"

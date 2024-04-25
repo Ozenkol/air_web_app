@@ -22,6 +22,7 @@ class AirportSerializer(serializers.Serializer):
     name = serializers.CharField() 
 
 class FlightSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     origin = AirportSerializer()
     destination = AirportSerializer()
     departure_time = serializers.DateTimeField()
@@ -45,13 +46,20 @@ class PassengerSerializer(serializers.ModelSerializer):
 #         model = Passenger
 #         fields = '__all__'
 
-class BookingSerializer(serializers.ModelSerializer):
-    passenger = PassengerSerializer()
-    flight = FlightSerializer()
+class BookingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = ['id', 'seat_class', 'booking_date', 'total_price']
 
+class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = ['id', 'passenger', 'flight', 'seat_class', 'booking_date', 'total_price']
+
+class BookingUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = ['seat_class']
 
 class PassengerCreateSerializer(serializers.ModelSerializer):
     class Meta:

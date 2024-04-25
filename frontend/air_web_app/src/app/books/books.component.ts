@@ -25,11 +25,12 @@ export class BooksComponent implements OnInit {
     this.datasource.books().subscribe(
       data => this.books = data
     )
-
-    console.log(this.books)
   }  
   delete(id: number) {
-    this.datasource.deleteBook(id).subscribe()
+    this.datasource.deleteBook(id).subscribe(
+
+    )
+    this.books = this.books?.filter(book => book.id != id)
   }
   update(id: number, seat_class: string) {
     console.log(seat_class)

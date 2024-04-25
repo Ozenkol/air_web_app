@@ -11,7 +11,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Airport, Flight, Passenger, Booking, User
 from .forms import SearchForm, BookingForm
-from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, PassengerCreateSerializer, \
+from .serializers import AirportSerializer, BookingCreateSerializer, BookingUpdateSerializer, FlightSerializer, BookingSerializer, PassengerCreateSerializer, \
     PassengerSerializer, PassengerSerializer, UserSerializer
 
 
@@ -55,6 +55,7 @@ def book_flight_view(request, pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def booking_list_view(request):
@@ -68,7 +69,6 @@ def booking_list_view(request):
 def create_booking(request):
     # Extracting user from the request
     user = request.user
-
     try:
         # Attempt to get the passenger associated with the user
         passenger = Passenger.objects.get(user=user)
@@ -77,12 +77,17 @@ def create_booking(request):
         passenger = Passenger.objects.create(user=user)
 
     # Validating and saving the booking
-    serializer = BookingSerializer(data=request.data)
+    data = request.data
+    data['passenger'] = passenger.id
+    serializer = BookingSerializer(
+        data = request.data
+    )
     if serializer.is_valid():
-        # Assigning the passenger to the booking
         serializer.validated_data['passenger'] = passenger
+        print(serializer.validated_data)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    print("SOS")
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BookingDetailView(views.APIView):
@@ -119,7 +124,7 @@ class BookingDetailView(views.APIView):
     def put(self, request, pk):
         booking = get_object_or_404(Booking, pk=pk)
         if request.user == booking.passenger.user:
-            serializer = BookingSerializer(booking, data=request.data)
+            serializer = BookingUpdateSerializer(booking, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
