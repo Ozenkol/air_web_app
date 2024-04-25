@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './direction.component.css'
 })
 export class DirectionComponent {
-  selectedDestination: string = 'T O K Y O';
-  selectedDestinationImage: string = 'assets/images/Tokyo.jpg';
+  selectedDestination: string = 'Popular directions';
+  selectedDestinationImage: string = 'assets/images/directions.jpg';
 
   onDestinationChange(event: any) {
     const selectedValue = event.target.value;

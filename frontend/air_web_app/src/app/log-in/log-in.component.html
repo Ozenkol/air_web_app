@@ -5,18 +5,22 @@
     >
       {{errorMessage}}
     </div>
+    <img src="assets/images/login.png" alt="">
     <div class="form-group">
-      <label for="exampleInputEmail1">Username</label>
-      <input [(ngModel)] = "username"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username"
+      <h2>Вход в аккаунт</h2>
+      <label for="exampleInputEmail1"></label>
+      <input [(ngModel)] = "username"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Имя пользователя"
       [ngModelOptions]="{standalone: true}">
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input [(ngModel)] = "password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+      <label for="exampleInputPassword1"></label>
+      <input [(ngModel)] = "password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль"
       [ngModelOptions]="{standalone: true}">
+      <p>Запомни меня <input type="checkbox" [(ngModel)]="rememberMe"></p>
+      <a href="">Забыли пароль?</a>
     </div>
-    <button type="submit" class="btn btn-primary my-2">Log in</button>
-    <p>Or <a routerLink="/sign-up">Sign up</a></p>
+    <button type="submit" class="btn btn-primary my-2">Отправить</button>
+    <p>Нет учетной записи? <a routerLink="/sign-up">Зарегистрировать</a></p>
   </form>
 </div>
 
