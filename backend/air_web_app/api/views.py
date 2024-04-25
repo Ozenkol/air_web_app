@@ -86,8 +86,7 @@ def create_booking(request):
         serializer.validated_data['passenger'] = passenger
         print(serializer.validated_data)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    print("SOS")
+        return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BookingDetailView(views.APIView):
