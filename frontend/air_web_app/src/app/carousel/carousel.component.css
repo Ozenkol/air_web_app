@@ -1,0 +1,20 @@
+/* Стили для h4 */
+h2 {
+    font-family: 'JetBrainsMono', sans-serif; /* Шрифт JetBrainsMono */
+    font-weight: normal; /* Обычный шрифт */
+    color: white; /* Белый цвет текста */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень текста */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 5%; /* Отступ сверху */
+    left: 25%; /* Отступ слева */
+}
+
+/* Стили для h3 */
+h3 {
+    font-family: 'Montserrat', sans-serif; /* Шрифт Montserrat */
+    font-weight: normal; /* Обычный шрифт */
+    color: white; /* Белый цвет текста */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 15%; /* Отступ сверху (например, на 40px ниже h4) */
+    left: 10%; /* Отступ слева */
+}
