@@ -32,7 +32,7 @@ class FlightSerializer(serializers.Serializer):
     total_seats = serializers.IntegerField()
     available_seats = serializers.IntegerField()
 
-class PassengerSerializer1(serializers.ModelSerializer):
+class PassengerSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     flights = FlightSerializer(many=True)
 
@@ -40,10 +40,10 @@ class PassengerSerializer1(serializers.ModelSerializer):
         model = Passenger
         fields = ['id', 'user', 'flights']
 
-class PassengerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Passenger
-        fields = '__all__'
+# class PassengerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Passenger
+#         fields = '__all__'
 
 class BookingSerializer(serializers.ModelSerializer):
     passenger = PassengerSerializer()
