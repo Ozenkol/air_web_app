@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .models import Flight, Passenger, Booking
+from .models import Flight, Passenger, Booking, User
 from .forms import SearchForm, BookingForm
-from .serializers import FlightSerializer, BookingSerializer, UserSerializer
+from .serializers import FlightSerializer, BookingSerializer, UserSerializer, PassengerCreateSerializer
 
 
 class FlightListView(views.APIView):
@@ -60,6 +60,19 @@ class BookingDetailView(views.APIView):
             return Response(serializer.data)
         else:
             return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
+
+
+class PassengerCreateView(views.APIView):
+    def post(self, request):
+        username = request.data.get('username')  # Assuming username is provided in the request data
+        user = User.objects.create(username=username)
+        passenger_data = {'user': user.id, 'flights': []}  # Customize data as needed
+        serializer = PassengerCreateSerializer(data=passenger_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user.delete()  # Rollback user creation if passenger creation fails
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserSignUpAPIView(views.APIView):
     def post(self, request):
