@@ -41,11 +41,10 @@ export class RestDataSourceService {
     )
   }
 
-  createBook(passanger: Passanger, flight: Flight, seat_class: string, total_price: number
-  ):
+  createBook(passanger: Passanger, flight: Flight, seat_class: string, total_price: number):
   Observable<any> {
     return this.http.post(
-      this.baseUrl + "api/" + passanger.id +"/booking/",
+      this.baseUrl + "api/booking/1",
       {
         flight : flight,
         passenger: passanger, 
