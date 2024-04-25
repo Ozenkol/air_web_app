@@ -28,7 +28,7 @@ class FlightDetailView(views.APIView):
         return Response(serializer.data)
 
 class BookFlightView(views.APIView):
-    authentication_classes = [JWTAuthentication]  # Specify JWTAuthentication for authentication
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request, pk):
         flight = get_object_or_404(Flight, pk=pk)
@@ -42,6 +42,15 @@ class BookFlightView(views.APIView):
             serializer = BookingSerializer(booking)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class BookingListView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        passenger = get_object_or_404(Passenger, user_id=user_id)
+        bookings = Booking.objects.filter(passenger=passenger)
+        serializer = BookingSerializer(bookings, many=True)
+        return Response(serializer.data)
 
 class BookingDetailView(views.APIView):
     def get(self, request, pk):
