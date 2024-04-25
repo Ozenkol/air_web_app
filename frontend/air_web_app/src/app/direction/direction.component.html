@@ -1,18 +1,18 @@
 <div class="mx-5 my-5 d-flex flex-column justify-content-center">
-    <h5 class="text-center">Рекомендуемы направления из пункта: 
-        <select class="select" aria-label=".form-select-lg example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+    <h5 class="text-center">Рекомендуемые направления из пункта: 
+        <select class="select" aria-label=".form-select-lg example" (change)="onDestinationChange($event)">
+            <option selected disabled>Выберите направление</option>
+            <option value="Алматы">Алматы</option>
+            <option value="Астана">Астана</option>
+            <option value="Орал">Орал</option>
         </select>
     </h5>
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="assets/images/Tokyo.jpg" class="d-block w-100" alt="plane">
+                <img [src]="selectedDestinationImage" class="d-block w-100" alt="plane">
                 <div class="carousel-caption position-absolute top-50" style="justify-content: center;">
-                    <h1>Tokyo</h1>
+                    <h1>{{ selectedDestination }}</h1>
                 </div>
             </div>
         </div>
