@@ -29,7 +29,14 @@
             <p class = "lead">Price business {{flight.price_business}}</p>
             <p class = "lead">Price first {{flight.price_first}}</p>
             <p class = "lead">Available seats {{flight.available_seats}}</p>
+            <select id="inputState" class="form-control" [(ngModel)]="seat_class"
+            [ngModelOptions]="{standalone: true}">
+              <option [ngValue]="'economy'">Economy</option>
+              <option [ngValue]="'economy'">First</option>
+              <option [ngValue]="'economy'">Business</option>
+            </select>
             <button type="button" class="btn btn-primary mx-2"
+            (click)="createBook(passanger, flight, seat_class, flight.price_economy)"
             >Бронировать</button>
         </div>
     </div>

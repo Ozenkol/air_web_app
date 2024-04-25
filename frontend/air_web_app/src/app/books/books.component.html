@@ -9,9 +9,15 @@
             <p class = "lead"></p>
             <p class = "lead"></p>
             <p class = "lead"></p>
+            <select id="inputState" class="form-control" [(ngModel)]="seat_class"
+            [ngModelOptions]="{standalone: true}">
+                <option [ngValue]="'economy'">Economy</option>           
+            </select>
             <button type="button" class="btn btn-primary mx-2"
+            (click)="delete(book.id)"
             >Удалить</button>
             <button type="button" class="btn btn-primary mx-2"
+            (click)="update(book.id, seat_class)"
             >Обновить</button>
         </div>
     </div>

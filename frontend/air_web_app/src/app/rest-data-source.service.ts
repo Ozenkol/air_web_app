@@ -29,15 +29,44 @@ export class RestDataSourceService {
     )
   } 
 
-  get books() : Observable<Book[]> {
+  books(user_id: number) : Observable<Book[]> {
     return this.http.get<Book[]>(
-      this.baseUrl + "api/1/booking/"
+      this.baseUrl + "api/"+user_id+"/booking/"
     )
   }
 
-  deleteBook() : Observable<any> {
+  get passanger() : Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "api/passanger/"
+    )
+  }
+
+  createBook(passanger: Passanger, flight: Flight, seat_class: string, total_price: number
+  ):
+  Observable<any> {
+    return this.http.post(
+      this.baseUrl + "api/booking/" + passanger.user.id,
+      {
+        flight : flight,
+        passanger: passanger, 
+        seat_class: seat_class,
+        total_price: total_price,
+      }
+    )
+  }
+
+  updateBook(id: number, seat_class: string) {
+    return this.http.put<any>(
+      this.baseUrl + "api/booking/" + id,
+      {
+        seat_class: seat_class
+      }
+    )
+  }
+
+  deleteBook(id: number) : Observable<any> {
     return this.http.delete(
-      this.baseUrl + "api/1/booking"
+      this.baseUrl + "api/booking/" + id
     )
   }
 
@@ -72,7 +101,7 @@ export class RestDataSourceService {
       }
     )
   }
-  
+ 
 }
 
 export class Airport {
@@ -83,14 +112,22 @@ export class Airport {
   ) {}
 }
 
+export class User {
+  constructor(
+    public id : number
+  ) {}
+}
+
 export class Passanger {
   constructor(
-     
+     public user: User,
+     public flights: Flight[]
   ) {}
 }
 
 export class Book {
   constructor(
+    public id: number,
     public passenger: Passanger,
     public flight: Flight,
     public seat_class: string,
@@ -101,6 +138,7 @@ export class Book {
 
 export class Flight {
   constructor(
+    public id: number,
     public origin : Airport,
     public destination: Airport,
     public departure_time : Date,
