@@ -66,14 +66,41 @@ class BookingListView(views.APIView):
         return Response(serializer.data)
 
 class BookingDetailView(views.APIView):
-    def get(self, request):
-        bookings = Booking.objects.all()
-        for booking in bookings:
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        booking = get_object_or_404(Booking, pk=pk)
+        if request.user == booking.passenger.user:
             serializer = BookingSerializer(booking)
-            if request.user == booking.passenger.user:
+            return Response(serializer.data)
+        else:
+            return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
+
+    def post(self, request):
+        serializer = BookingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        booking = get_object_or_404(Booking, pk=pk)
+        if request.user == booking.passenger.user:
+            serializer = BookingSerializer(booking, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
                 return Response(serializer.data)
-            else:
-                return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("You don't have permission to update this booking.", status=status.HTTP_403_FORBIDDEN)
+
+    def delete(self, request, pk):
+        booking = get_object_or_404(Booking, pk=pk)
+        if request.user == booking.passenger.user:
+            booking.delete()
+            return Response("Booking deleted successfully.", status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response("You don't have permission to delete this booking.", status=status.HTTP_403_FORBIDDEN)
 
 
 class PassengerCreateView(views.APIView):
