@@ -10,7 +10,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Airport, Flight, Passenger, Booking, User
 from .forms import SearchForm, BookingForm
-from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, PassengerCreateSerializer, PassengerSerializer, UserSerializer
+from .serializers import AirportSerializer, FlightSerializer, BookingSerializer, PassengerCreateSerializer, \
+    PassengerSerializer, PassengerSerializer, UserSerializer
 
 
 def airportsList(request):
@@ -103,15 +104,15 @@ class BookingDetailView(views.APIView):
         else:
             return Response("You don't have permission to delete this booking.", status=status.HTTP_403_FORBIDDEN)
 
-class PassengerDetailView(APIView):
+class GetPassengerByUser(APIView):
     def get(self, request):
-        passenger = get_object_or_404(Passenger, user=request.user)
-        serializer = PassengerSerializer(passenger, data=request.data)
-        if request.user == passenger.user:
-            if (serializer.is_valid):
-                return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response("You don't have permission to delete this booking.", status=status.HTTP_403_FORBIDDEN)
+        user_id = request.user.id
+        try:
+            passenger = Passenger.objects.get(user_id=user_id)
+            serializer = PassengerSerializer(passenger)
+            return Response(serializer.data)
+        except Passenger.DoesNotExist:
+            return Response({'error': 'Passenger not found for this user'}, status=status.HTTP_404_NOT_FOUND)
 
 class PassengerCreateView(views.APIView):
     def post(self, request):
