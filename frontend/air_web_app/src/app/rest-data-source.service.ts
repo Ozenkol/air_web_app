@@ -45,10 +45,10 @@ export class RestDataSourceService {
   ):
   Observable<any> {
     return this.http.post(
-      this.baseUrl + "api/booking/" + passanger.user.id,
+      this.baseUrl + "api/" + passanger.id +"/booking/",
       {
         flight : flight,
-        passanger: passanger, 
+        passenger: passanger, 
         seat_class: seat_class,
         total_price: total_price,
       }
@@ -120,6 +120,7 @@ export class User {
 
 export class Passanger {
   constructor(
+     public id: number,
      public user: User,
      public flights: Flight[]
   ) {}

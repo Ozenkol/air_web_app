@@ -66,7 +66,7 @@ class BookingListView(views.APIView):
         bookings = Booking.objects.filter(passenger=passenger)
         serializer = BookingSerializer(bookings, many=True)
         return Response(serializer.data)
-    def post(self, request):
+    def post(self, request, user_id):
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
