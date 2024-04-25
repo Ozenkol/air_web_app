@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from rest_framework import views, status
+from rest_framework.decorators import authentication_classes, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -29,30 +30,29 @@ class FlightDetailView(views.APIView):
         serializer = FlightSerializer(flight)
         return Response(serializer.data)
 
-class BookFlightView(views.APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    def post(self, request, pk):
-        flight = get_object_or_404(Flight, pk=pk)
-        form = BookingForm(request.data)
-        if form.is_valid():
-            passenger = Passenger.objects.get(user=request.user)
-            seat_class = form.cleaned_data['seat_class']
-            total_price = flight.get_price(seat_class)
-            booking = Booking.objects.create(passenger=passenger, flight=flight, seat_class=seat_class, total_price=total_price)
-            flight.book_seat()
-            serializer = BookingSerializer(booking)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def book_flight_view(request, pk):
+    flight = get_object_or_404(Flight, pk=pk)
+    form = BookingForm(request.data)
+    if form.is_valid():
+        passenger = Passenger.objects.get(user=request.user)
+        seat_class = form.cleaned_data['seat_class']
+        total_price = flight.get_price(seat_class)
+        booking = Booking.objects.create(passenger=passenger, flight=flight, seat_class=seat_class, total_price=total_price)
+        flight.book_seat()
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class BookingListView(views.APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, user_id):
-        passenger = get_object_or_404(Passenger, user_id=user_id)
-        bookings = Booking.objects.filter(passenger=passenger)
-        serializer = BookingSerializer(bookings, many=True)
-        return Response(serializer.data)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def booking_list_view(request, user_id):
+    passenger = get_object_or_404(Passenger, user_id=user_id)
+    bookings = Booking.objects.filter(passenger=passenger)
+    serializer = BookingSerializer(bookings, many=True)
+    return Response(serializer.data)
 
 class BookingDetailView(views.APIView):
     permission_classes = [IsAuthenticated]
