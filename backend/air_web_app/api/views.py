@@ -66,8 +66,21 @@ class BookingDetailView(views.APIView):
             return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
 
     def post(self, request):
+        # Extracting user from the request
+        user = request.user
+
+        try:
+            # Attempt to get the passenger associated with the user
+            passenger = Passenger.objects.get(user=user)
+        except Passenger.DoesNotExist:
+            # If the passenger doesn't exist, create a new one
+            passenger = Passenger.objects.create(user=user)
+
+        # Validating and saving the booking
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
+            # Assigning the passenger to the booking
+            serializer.validated_data['passenger'] = passenger
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
