@@ -18,6 +18,12 @@ def airportsList(request):
     print(serializer.data)
     return JsonResponse(serializer.data, safe = False)
 
+def airportsList(request):
+    objects = Airport.objects.all()
+    serializer = AirportSerializer(objects, many = True)
+    print(serializer.data)
+    return JsonResponse(serializer.data, safe = False)
+
 class FlightListView(views.APIView):
     def get(self, request):
         flights = Flight.objects.all()
@@ -55,6 +61,15 @@ class BookFlightView(views.APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class BookingListView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        passenger = get_object_or_404(Passenger, user_id=user_id)
+        bookings = Booking.objects.filter(passenger=passenger)
+        serializer = BookingSerializer(bookings, many=True)
+        return Response(serializer.data)
+
 class BookingDetailView(views.APIView):
     def get(self, request):
         bookings = Booking.objects.all()
@@ -64,6 +79,19 @@ class BookingDetailView(views.APIView):
                 return Response(serializer.data)
             else:
                 return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
+
+
+class PassengerCreateView(views.APIView):
+    def post(self, request):
+        username = request.data.get('username')  # Assuming username is provided in the request data
+        user = User.objects.create(username=username)
+        passenger_data = {'user': user.id, 'flights': []}  # Customize data as needed
+        serializer = PassengerCreateSerializer(data=passenger_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user.delete()  # Rollback user creation if passenger creation fails
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserSignUpAPIView(views.APIView):
     def post(self, request):
