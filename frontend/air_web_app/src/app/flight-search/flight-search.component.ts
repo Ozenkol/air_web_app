@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Airport, Flight, Passanger, RestDataSourceService } from '../rest-data-source.service';
 import { FlightsComponent } from '../flights/flights.component';
 
@@ -13,6 +13,7 @@ import { FlightsComponent } from '../flights/flights.component';
   styleUrl: './flight-search.component.css'
 })
 export class FlightSearchComponent implements OnInit {
+  errorMessage?: string
   airports?: Airport[];
   flights?: Flight[];
   sortedFlights?: Flight[];
@@ -21,7 +22,9 @@ export class FlightSearchComponent implements OnInit {
   seat_class!: string;
   passanger!: Passanger
 
-  constructor(private datasource: RestDataSourceService) {
+  constructor(private datasource: RestDataSourceService,
+    private route: Router
+  ) {
 
   }
 
@@ -47,12 +50,33 @@ export class FlightSearchComponent implements OnInit {
   }
 
   createBook(passanger: Passanger, flight: Flight, seat_class: string, total_price: number) {
+    if (seat_class == 'economic') {
+      total_price = flight.price_economy
+    }
+    else if (seat_class == 'business') {
+      total_price = flight.price_business
+    }
+    else if (seat_class == 'first') {
+      total_price = flight.price_first
+    }
     this.datasource.createBook(
       passanger,
       flight,
       seat_class,
       total_price
-    ).subscribe()
+    ).subscribe(
+      data => {
+        if(data) {
+          this.errorMessage = undefined
+          this.route.navigateByUrl('')
+        }
+      },
+      error => { if(error) {
+        this.errorMessage = "Unauthorizated"
+        console.log(this.errorMessage)
+      }
+      }
+    )
   }
 
 }

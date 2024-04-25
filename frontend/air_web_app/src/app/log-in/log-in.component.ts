@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RestDataSourceService } from '../rest-data-source.service';
 import { AuthService } from '../auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,12 +19,19 @@ export class LogInComponent {
   password ?: string
   errorMessage ?: string
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private router: Router
+  ) {}
 
   authenticate(form : NgForm) {
     if (form.valid) {
       this.authService.authenticate(this.username ?? "", this.password ?? "").subscribe(
-        response => this.errorMessage = undefined,
+        response => {
+          if (response) {
+            this.errorMessage = undefined
+            this.router.navigateByUrl('')
+          }
+        },
         error => {if (error) {
           this.errorMessage = "Authentication Failed"
         }

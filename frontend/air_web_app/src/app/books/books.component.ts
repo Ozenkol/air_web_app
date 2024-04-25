@@ -15,6 +15,7 @@ export class BooksComponent implements OnInit {
   passanger!: Passanger
   books?: Book[]
   seat_class!: string
+  total_price!: number
   
   constructor(private datasource: RestDataSourceService) {}
   ngOnInit(): void {
@@ -32,9 +33,16 @@ export class BooksComponent implements OnInit {
     )
     this.books = this.books?.filter(book => book.id != id)
   }
-  update(id: number, seat_class: string) {
-    console.log(seat_class)
-    console.log(this.seat_class)
-    this.datasource.updateBook(id, seat_class ?? "").subscribe()
+  update(book: Book, seat_class: string) {
+    if (seat_class == "economic") {
+      this.total_price = book.flight.price_economy
+    }
+    else if (seat_class == "busines") {
+      this.total_price = book.flight.price_business
+    }
+    else if (seat_class == "first") {
+      this.total_price = book.flight.price_first
+    }
+    this.datasource.updateBook(book.id, seat_class ?? "", this.total_price).subscribe()
   }
 }
