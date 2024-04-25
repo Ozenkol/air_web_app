@@ -57,12 +57,13 @@ class BookFlightView(views.APIView):
 
 class BookingDetailView(views.APIView):
     def get(self, request):
-        booking = Booking.objects.all()
-        serializer = BookingSerializer(booking)
-        if request.user == booking.passenger.user:
-            return Response(serializer.data)
-        else:
-            return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
+        bookings = Booking.objects.all()
+        for booking in bookings:
+            serializer = BookingSerializer(booking)
+            if request.user == booking.passenger.user:
+                return Response(serializer.data)
+            else:
+                return Response("You don't have permission to view this booking.", status=status.HTTP_403_FORBIDDEN)
 
 class UserSignUpAPIView(views.APIView):
     def post(self, request):

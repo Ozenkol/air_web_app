@@ -18,8 +18,5 @@ export class BooksComponent implements OnInit {
         data => this.books = data
       )
       console.log(this.books)
-  }
-
-  
-  
+  }  
 }
