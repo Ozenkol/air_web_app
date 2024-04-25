@@ -48,8 +48,8 @@ def book_flight_view(request, pk):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def booking_list_view(request, user_id):
-    passenger = get_object_or_404(Passenger, user_id=user_id)
+def booking_list_view(request):
+    passenger = get_object_or_404(Passenger, user=request.user)
     bookings = Booking.objects.filter(passenger=passenger)
     serializer = BookingSerializer(bookings, many=True)
     return Response(serializer.data)
