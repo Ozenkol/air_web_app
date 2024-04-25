@@ -41,6 +41,11 @@ export class FlightSearchComponent implements OnInit {
   filter() {
     this.datasource.flights.subscribe(
       data => this.sortedFlights = data,
+      err => {
+        if(err) {
+          this.errorMessage = "Unauthorized"
+        }
+      }
     )
     this.flights = this.sortedFlights?.filter(
       (f) => f.origin.name === this.selectedOrigin?.name

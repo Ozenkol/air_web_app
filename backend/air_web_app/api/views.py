@@ -86,8 +86,8 @@ def create_booking(request):
         serializer.validated_data['passenger'] = passenger
         print(serializer.validated_data)
         serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.data)
+    return JsonResponse(serializer.errors)
 
 class BookingDetailView(views.APIView):
     permission_classes = [IsAuthenticated]

@@ -50,7 +50,9 @@ export class RestDataSourceService {
         seat_class: seat_class,
         total_price: total_price,
       }
-    )
+    ).pipe(map((response => {
+      return response
+    })));
   }
 
   updateBook(id: number, seat_class: string, total_price: number) {
