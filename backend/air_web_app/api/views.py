@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework import views, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Airport, Flight, Passenger, Booking, User
@@ -102,6 +103,13 @@ class BookingDetailView(views.APIView):
         else:
             return Response("You don't have permission to delete this booking.", status=status.HTTP_403_FORBIDDEN)
 
+class PassengerDetailView(APIView):
+    def get(self, request):
+        passenger = get_object_or_404(Passenger, user=request.user)
+        if request.user == passenger.user:
+            return Response({"passenger": passenger}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response("You don't have permission to delete this booking.", status=status.HTTP_403_FORBIDDEN)
 
 class PassengerCreateView(views.APIView):
     def post(self, request):
