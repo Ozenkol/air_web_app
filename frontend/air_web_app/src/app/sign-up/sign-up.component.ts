@@ -43,7 +43,7 @@ export class SignUpComponent {
       this.errorMessage = "Form Data Invalid";
     }
   }
-  createPassnger() {
+  createPassanger() {
     this.authService.createPassenger().subscribe()
   }
 }

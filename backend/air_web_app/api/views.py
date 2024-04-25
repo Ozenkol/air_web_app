@@ -106,8 +106,10 @@ class BookingDetailView(views.APIView):
 class PassengerDetailView(APIView):
     def get(self, request):
         passenger = get_object_or_404(Passenger, user=request.user)
+        serializer = PassengerSerializer(passenger, data=request.data)
         if request.user == passenger.user:
-            return Response({"passenger": passenger}, status=status.HTTP_204_NO_CONTENT)
+            if (serializer.is_valid):
+                return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response("You don't have permission to delete this booking.", status=status.HTTP_403_FORBIDDEN)
 

@@ -32,6 +32,7 @@ export class FlightSearchComponent implements OnInit {
       this.datasource.passanger.subscribe(
         data => this.passanger = data
       )
+      console.log(this.passanger)
   }
 
   filter() {

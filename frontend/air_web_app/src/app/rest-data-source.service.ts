@@ -37,7 +37,7 @@ export class RestDataSourceService {
 
   get passanger() : Observable<any> {
     return this.http.get<any>(
-      this.baseUrl + "api/passanger/"
+      this.baseUrl + "api/passenger/"
     )
   }
 
@@ -97,7 +97,7 @@ export class RestDataSourceService {
     return this.http.post<any>(
       this.baseUrl + "api/" + "passenger/create/",
       {
-
+        
       }
     )
   }
